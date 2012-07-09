@@ -1,5 +1,5 @@
 <?php
-$img_base_url = "https://github.com/JeffreyWay/Tuts----jQuery-Mobile-RSS-Reader/tree/master/img";
+$img_base_url = "https://github.com/JeffreyWay/Tuts----jQuery-Mobile-RSS-Reader/raw/master/img";
 ?>
 
 <!DOCTYPE html>
