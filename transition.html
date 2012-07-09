@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>multi pages</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.0-rc.1/jquery.mobile-1.1.0-rc.1.min.css" />
+  <script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+  <script src="http://code.jquery.com/mobile/1.1.0-rc.1/jquery.mobile-1.1.0-rc.1.min.js"></script>
+</head>
+<body>
+  <div data-role="page" id="foo" data-title="Page Foo">
+    <div data-role="header">
+      <h1>Foo</h1>
+    </div>
+    <div data-role="content"> 
+      <p>I'm first in the source order so I'm shown as the page.</p>    
+      <p>View internal page called <a href="#bar" data-transition="pop">bar</a></p> 
+    </div>
+    <div data-role="footer">
+      <h4>Page Footer</h4>
+    </div>
+  </div>
+
+  <div data-role="page" id="bar" data-title="Page Bar">
+    <div data-role="header">
+      <h1>Bar</h1>
+    </div>
+    <div data-role="content"> 
+      <p>I'm the second in the source order so I'm hidden when the page loads. I'm just shown if a link that references my ID is beeing clicked.</p>    
+      <p><a href="#foo" data-transition="slideup">Back to foo</a></p> 
+    </div>
+    <div data-role="footer">
+      <h4>Page Footer</h4>
+    </div>
+  </div>
+</body>
+</html>
