@@ -1,5 +1,5 @@
 header, footer { display: block; }
- .ui-li-icon {
+.ui-listview .ui-li-icon {
    top: 9px;
 }
  
