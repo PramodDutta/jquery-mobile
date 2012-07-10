@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>New Note</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="apple-touch-icon" href="app-icon.jpg" />
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.0-rc.1/jquery.mobile-1.1.0-rc.1.min.css" />
+<!-- <link rel="stylesheet" href="custom.css" /> -->
+<script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+<script src="http://code.jquery.com/mobile/1.1.0-rc.1/jquery.mobile-1.1.0-rc.1.min.js"></script>
+<script type="text/javascript" src="http://www.modernizr.com/downloads/modernizr-latest.js"></script>
+<script type="text/javascript">
+
+  var lsKey = "notepad";
+  $('#noteNew').live('pageinit', function() {
+    $("#noteSave").click(function(e) {
+        var $newNote = $("#noteContent").val();
+        $newNote = $.trim($newNote);
+
+        if ($newNote.length === 0) 
+        {
+          e.preventDefault();
+        }
+        else if (typeof(Storage)!=="undefined") 
+        {
+          alert("your browser doesn't support localStorage.");
+          e.preventDefault();
+        }
+        else
+        {
+          saveNote($newNote);
+        }
+
+    });
+  });
+
+  function saveNote($newNote) {
+    $newNote = '<li><a href="#">'+$newNote+'</a></li>';
+
+    var $notes = localStorage.lsKey;
+    if ($notes && $notes.length > 0)
+    {
+      $notes = $notes.split("|");
+      $notes.push($newNote);
+    }
+    else
+    {
+      $notes = [$newNote];
+    }
+    $notes = $notes.join("|");
+    localStorage.lsKey = $notes;
+  }
+</script>
+</head>
+<body>
+  <div data-role="page" id="noteNew">
+
+    <div data-role="header" data-position="fixed">
+      <a data-icon="back" data-rel="back">Back</a>
+      <h1>New Note</h1>
+      <a href="index.html" data-icon="check" class="ui-btn-right" id="noteSave">Save</a>
+    </div>
+
+    <div data-role="content">
+      <textarea cols="40" rows="8" name="textarea" id="noteContent" style="width:100%;height:100%;"></textarea>
+    </div>
+
+    <div data-role="footer" data-position="fixed">
+      <div data-role="navbar">
+        <ul>
+        <li><a href="index.html" data-theme="b">Notes</a></li>
+        <li><a href="trash.html">Trash</a></li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>
