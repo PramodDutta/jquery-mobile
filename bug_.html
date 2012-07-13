@@ -28,9 +28,9 @@
 	<script type="text/javascript">
 	  /*
 	  //bug: 每次从bug.html进入到bug_.html，pageinit和click的事件会被执行多次
-	  $("#page2").live("pageinit", function (e) {
+	  $(document).delegate('#page2', 'pageinit', function (e) {
 		  console.log(e.target.id + ":" + e.type);
-		  $("#fooBtn").live("click", function(e) {
+		  $("#fooBtn").undelegate(null, 'click').delegate(null, 'click', function(e) {
 			console.log(e.target.id + ":" + e.type); 
 		  });
 	  });
@@ -38,13 +38,14 @@
 	  
 	  ///*
 	  //work around for the bug
-	  $("#page2").die("pageinit").live("pageinit", function (e) {
+	  $(document).undelegate('#page2', 'pageinit').delegate('#page2', 'pageinit', function (e) {
 		  console.log(e.target.id + ":" + e.type);
-		  $("#fooBtn").die("click").live("click", function(e) {
+		  //必须绑定到$(document)上，因为jqm有bug导致多次进入ajax页面之后，最终页面上有多份$('#fooBtn')
+		  $(document).undelegate('#fooBtn', 'click').delegate('#fooBtn', 'click', function(e) {
 			console.log(e.target.id + ":" + e.type); 
 		  });
 	  });
-	  //*/
+	 //*/
 	  
 	</script>
 

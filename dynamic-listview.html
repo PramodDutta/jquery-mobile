@@ -9,7 +9,7 @@
 </head>
 <body>
 
-  <div data-role="page">
+  <div data-role="page" id="fooPage">
 
     <div data-role="header">
       <h1>Dynamically generate listview</h1>
@@ -25,7 +25,8 @@
     </div>
 
 <script type="text/javascript">
-$(document).live("pageinit", function() {
+
+$(document).delegate('#fooPage', 'pageinit', function (e) {
   //在页面生成之后，重新获取data并refresh listview
   var $list = '<li><a href="#">Acura</a></li>' + 
         	  '<li><a href="#">Audi</a></li>' + 

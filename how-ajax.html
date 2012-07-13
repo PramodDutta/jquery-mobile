@@ -8,7 +8,7 @@
 <script src="http://code.jquery.com/mobile/1.1.0-rc.1/jquery.mobile-1.1.0-rc.1.min.js"></script>
   
 <script type="text/javascript">
-  $(document).live("pageshow", function (e) {
+  $(document).delegate('#page1', 'pageshow', function (e) {
 	  console.log(location); 
   });
 </script>

@@ -37,9 +37,9 @@
   
   <script type="text/javascript">
   
-  $("#newNotePage").die("pageinit").live("pageinit", function( e ) {
+  $(document).delegate('#newNotePage', 'pageinit', function( e ) {
       //console.log(e.type + ": " + e.target.id);
-	  $("#noteSave").die("click").live("click", function(e) {
+	  $(document).undelegate('#noteSave', 'click').delegate('#noteSave', 'click', function(e) {
 		  //console.log(e.type + ": " + e.target.id);
 	      var $note = $.trim($("#noteContent").val());
 	      if ($note.length === 0)

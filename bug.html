@@ -25,7 +25,7 @@
     </div>
 
 	<script type="text/javascript">
-	  $("#page1").live("pageinit", function (e) {
+	  $(document).delegate('#page1', 'pageinit', function (e) {
 		console.log(e.target.id + ":" + e.type); 
 	  });
 	</script>

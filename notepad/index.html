@@ -37,21 +37,25 @@
   
 <script type="text/javascript">
 
-  $("#notesPage").die("pagebeforeshow").live("pagebeforeshow", function(e) {
+  $(document).delegate('#notesPage', 'pagebeforeshow', function(e) {
 	//注意，这里要选择正确的event: pagebeforeshow，如果选择pageinit的话，在返回之后并不会重新load数据(因为pageinit只有一次)
+	//console.log(e.type+": "+e.target.id);
 	showNotes();
-  	$("#notesList li").die("swipe").live( "swipe", function( e ) {
-		//console.log(e.type+": "+e.target.nodeName);
-		$(this).children("span:first").toggle();
+  }).delegate('#notesPage', 'pageinit', function(e) {
+	  //这些event binding只需要bind一次，如果放置到pagebeforeshow中，则每显示依次bind一次，导致方法被执行多次
+	  $(document).undelegate('#notesList li', 'swipe').delegate('#notesList li', 'swipe', function( e ) {
+			//console.log(e.type+": "+e.target.nodeName);
+			$(this).children("span:first").toggle();
 	});
-  	$("#notesList li span.delete").die("tap").live( "tap", function( e ) {
-		//console.log(e.type+": "+e.target.nodeName + ", " + $(this).attr('id'));
-		var $id = $(this).attr('id');
-		moveToTrash($id);
-		$(this).parent("li").remove();
-	});
-  });
-  
+	 //注意必须bind到$(document)不能bind到$('#notesList')，因为jqm有bug，ajax页面多次进入之后，会出现多个$('#notesList')
+	  $(document).undelegate('#notesList li span.delete', 'tap').delegate('#notesList li span.delete', 'tap', function( e ) {
+			//console.log(e.type+": "+e.target.nodeName + ", " + $(this).attr('id'));
+			var $id = $(this).attr('id');
+			moveToTrash($id);
+			$(this).parent("li").remove();
+		});
+   }); 
+ 
   function showNotes() {
     var $notes = '';
     var $data = getAll();

@@ -36,26 +36,29 @@
   
 <script type="text/javascript">
 
-$("#trashPage").die("pagebeforeshow").live("pagebeforeshow", function( e ) {
+$(document).delegate('#trashPage', 'pagebeforeshow', function( e ) {
     //console.log(e.type + ": " + e.target.id);
   	 showTrashNotes();
-	 
-	  $("#trashList li").die("swipe").live("swipe", function(e) {
-		//console.log(e.type+": "+e.target.nodeName);
+}).delegate('#trashPage', 'pageinit', function(e) {
+
+  	$(document).undelegate('#trashList li', 'swipe').delegate('#trashList li', 'swipe', function( e ) { 
+		console.log(e.type+": "+e.target.nodeName);
 		$(this).children("span.delete:first").toggle();
-	  }).die("taphold").live("taphold", function(e) {
+	  }).undelegate('li', 'taphold').delegate('li', 'taphold', function(e) {
 		$(this).children("span.restore:first").toggle();
 	  });
 	  
 	  //click delete button to remove forever
-	  $("#trashList li span.delete").die("tap").live("tap", function(e) {
+	  $(document).undelegate('#trashList li span.delete', 'tap').delegate('#trashList li span.delete', 'tap', function( e ) {
 		var $id = $(this).attr('id');
 		deleteForever($id);
 	    $(this).parent("li").remove();
 	  });
 	  
 	  //click restore button to move to notes
-	  $("#trashList li span.restore").die("tap").live("tap", function(e) {
+	  $(document).undelegate('#trashList li span.restore', 'tap').delegate('#trashList li span.restore', 'tap', function( e ) {
+		  //注意不能使用如下的绑定，必须绑定到$(document)上，不能绑定到$('#trashList')，因为jqm有bug，浏览器会cache导致多次ajax进入页面之后，出现多个$('#trashList')。
+		  //$('#trashList').undelegate('li span.restore', 'tap').delegate('li span.restore', 'tap', function( e ) {
 		var $id = $(this).attr('id');
 		retoreFromTrash($id);
 	    $(this).parent("li").remove();
