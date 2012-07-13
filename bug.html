@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>title</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.0-rc.1/jquery.mobile-1.1.0-rc.1.min.css" />
+<script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+<script src="http://code.jquery.com/mobile/1.1.0-rc.1/jquery.mobile-1.1.0-rc.1.min.js"></script>
+</head>
+
+<body>
+  <div data-role="page" id="page1">
+    <div data-role="header">
+      <h1>Page1</h1>
+    </div>
+
+    <div data-role="content">   
+      <p>This is Page1</p>
+      <p><a href="bug_.html">Go Page2 from Page1</a></p>
+    </div>
+
+    <div data-role="footer">
+	  <p>Page Footer</p>
+    </div>
+
+	<script type="text/javascript">
+	  $("#page1").live("pageinit", function (e) {
+		console.log(e.target.id + ":" + e.type); 
+	  });
+	</script>
+
+  </div>
+</body>
+</html>

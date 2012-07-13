@@ -1,62 +1,32 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<title>Notepad</title>
-
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="apple-touch-icon" href="app-icon.jpg" />
-<link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.0-rc.1/jquery.mobile-1.1.0-rc.1.min.css" />
-<!-- <link rel="stylesheet" href="custom.css" /> -->
-<script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
-<script src="http://code.jquery.com/mobile/1.1.0-rc.1/jquery.mobile-1.1.0-rc.1.min.js"></script>
-
-<script type="text/javascript">
-
-  var key = "notepad";
-  $("#notesPage").live("pagecreate", function() {
-    showNotes();
-  });
-  function showNotes() {
-    var $notes = localStorage.getItem(key);
-    if ($notes && $notes.length > 0)
-    {
-      $notes = $notes.split("|");
-      $notes = $notes.join("");
-      $("#notesList").html($notes);
-    }
-    else
-    {
-      $("#notesList").html("");
-    }
-  }
-
-  eventLog($(document));
-  function eventLog($node) {
-    var i = 0;
-    $node.live("pagebeforeload pageload pageloadfailed pagebeforechange pagechange pagechangefailed pagebeforeshow pagebeforehide pageshow pagehide pagebeforecreate pagecreate pageinit pageremove", function(e) {
-      console.log(i + ": " + e.type + ", " + e.target.id);
-      i++;
-    });
-  }
-
-</script>
+	<title>Notepad</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="apple-touch-icon" href="app-icon.jpg" />
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.0-rc.1/jquery.mobile-1.1.0-rc.1.min.css" />
+	<link rel="stylesheet" href="custom.css" />
+	<script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.1.0-rc.1/jquery.mobile-1.1.0-rc.1.min.js"></script>
+	<script src="common.js"></script>
 </head>
 
 <body>
 
 <div data-role="page" id="notesPage">
 
-  <div data-role="header" data-position="fixed"> <!-- data-fullscreen="true"> -->
+  <div data-role="header" data-position="fixed">
     <h1>Notes</h1>
     <a href="new.html" data-icon="plus" class="ui-btn-right">New</a>
   </div>
-
+  
   <div data-role="content">
     <ul data-role="listview" id="notesList">
     </ul>
   </div>
 
-  <div data-role="footer" data-position="fixed"> <!-- data-fullscreen="true"> -->
+  <div data-role="footer" data-position="fixed">
     <div data-role="navbar">
       <ul>
       <li><a href="index.html" data-theme="b">Notes</a></li>
@@ -64,8 +34,41 @@
       </ul>
     </div>
   </div>
+  
+<script type="text/javascript">
+
+  $("#notesPage").die("pagebeforeshow").live("pagebeforeshow", function(e) {
+	//注意，这里要选择正确的event: pagebeforeshow，如果选择pageinit的话，在返回之后并不会重新load数据(因为pageinit只有一次)
+	showNotes();
+  	$("#notesList li").die("swipe").live( "swipe", function( e ) {
+		//console.log(e.type+": "+e.target.nodeName);
+		$(this).children("span:first").toggle();
+	});
+  	$("#notesList li span.delete").die("tap").live( "tap", function( e ) {
+		//console.log(e.type+": "+e.target.nodeName + ", " + $(this).attr('id'));
+		var $id = $(this).attr('id');
+		moveToTrash($id);
+		$(this).parent("li").remove();
+	});
+  });
+  
+  function showNotes() {
+    var $notes = '';
+    var $data = getAll();
+    if ($data) 
+    {
+    	$data = $data.data;
+    	$.each($data, function ($id, $value) {
+    		if ($value[0] == 0)
+    			$notes += '<li>' + $value[1] + '<span class="delete" id="'+$id+'">Delete</span></li>';
+    	});
+    }
+    $("#notesList").html($notes);
+    $("#notesList").listview('refresh');
+  }
+  
+</script>
 
 </div>
-
 </body>
 </html>

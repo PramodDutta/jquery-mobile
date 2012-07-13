@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>jqm events</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.0-rc.1/jquery.mobile-1.1.0-rc.1.min.css" />
+<script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+<script src="http://code.jquery.com/mobile/1.1.0-rc.1/jquery.mobile-1.1.0-rc.1.min.js"></script>
+
+<script type="text/javascript">
+  eventLog($(document));
+  
+  function eventLog($node) {
+    var i = 0;
+    $node.live("pagebeforeload pageload pageloadfailed pagebeforechange pagechange pagechangefailed pagebeforeshow pagebeforehide pageshow pagehide pagebeforecreate pagecreate pageinit pageremove", function(e) {
+      console.log(i + ": " + e.type + ", " + e.target.id);
+      i++;
+    });
+  }
+
+</script>
+
+</head>
+<body>
+  <div data-role="page" id="page-events">
+
+    <!-- header -->
+    <div data-role="header">
+      <h1>page-events</h1>
+    </div>
+
+    <!-- content -->
+    <div data-role="content">   
+      <a href="page-events1.html">Go to page-events1.html</a>
+    </div>
+
+    <!-- footer -->
+    <div data-role="footer">
+      <h4>Page Footer</h4>
+    </div>
+
+  </div>
+</body>
+</html>

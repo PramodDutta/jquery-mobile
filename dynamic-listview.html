@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>jqm dynamically generate listview</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.0-rc.1/jquery.mobile-1.1.0-rc.1.min.css" />
+  <script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+  <script src="http://code.jquery.com/mobile/1.1.0-rc.1/jquery.mobile-1.1.0-rc.1.min.js"></script>
+</head>
+<body>
+
+  <div data-role="page">
+
+    <div data-role="header">
+      <h1>Dynamically generate listview</h1>
+    </div>
+
+    <div data-role="content">
+      <ul data-role="listview" id="fooListview">
+      </ul>
+    </div>
+    
+    <div data-role="footer">
+    	<h4>Page Footer</h4>
+    </div>
+
+<script type="text/javascript">
+$(document).live("pageinit", function() {
+  //在页面生成之后，重新获取data并refresh listview
+  var $list = '<li><a href="#">Acura</a></li>' + 
+        	  '<li><a href="#">Audi</a></li>' + 
+        	  '<li><a href="#">BMW</a></li>' +
+              '<li><a href="#">Cadillac</a></li>' +
+              '<li><a href="#">Ferrari</a></li>';
+  //也可以使用$.ajax从server获取listview的data
+  $("#fooListview").html($list).listview('refresh');
+});
+</script>
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,14 @@
+
+li .delete {
+	color:		red;
+	float:		right;
+	display:	none;
+	padding:	0px 2px;
+}
+
+li .restore {
+	color:		green;
+	float:		right;
+	display:	none;
+	padding:	0px 2px;
+}

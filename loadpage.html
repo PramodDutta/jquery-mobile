@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>jqm load external page</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.0-rc.1/jquery.mobile-1.1.0-rc.1.min.css" />
+<script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+<script src="http://code.jquery.com/mobile/1.1.0-rc.1/jquery.mobile-1.1.0-rc.1.min.js"></script>
+
+<script type="text/javascript">
+  //register log for all page related events
+  eventLog($(document));
+  
+  function eventLog($node) {
+    var i = 0;
+    $node.live("pagebeforeload pageload pageloadfailed pagebeforechange pagechange pagechangefailed pagebeforeshow pagebeforehide pageshow pagehide pagebeforecreate pagecreate pageinit pageremove", function(e) {
+      console.log(i + ": " + e.type + ", " + e.target.id);
+      i++;
+    });
+  }
+
+  $(document).ready(function () {
+	//load an external page
+  	$.mobile.loadPage("template.html", {
+    	pageContainer: $("#fooContent")
+  	});  
+  });
+  
+  
+</script>
+
+</head>
+<body>
+
+<div data-role="page" id="fooPage">
+  <div data-role="header">
+  	the header
+  </div>
+  <div data-role="content" id="fooContent"> 
+  </div>
+  <div data-role="footer">
+    the footer
+  </div>
+</div>
+
+</body>
+</html>

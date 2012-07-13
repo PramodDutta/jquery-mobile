@@ -1,54 +1,15 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<title>New Note</title>
-
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="apple-touch-icon" href="app-icon.jpg" />
-<link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.0-rc.1/jquery.mobile-1.1.0-rc.1.min.css" />
-<!-- <link rel="stylesheet" href="custom.css" /> -->
-<script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
-<script src="http://code.jquery.com/mobile/1.1.0-rc.1/jquery.mobile-1.1.0-rc.1.min.js"></script>
-<script type="text/javascript" src="http://www.modernizr.com/downloads/modernizr-latest.js"></script>
-
-<script type="text/javascript">
-
-  var key = "notepad";
-
-  $("#newNotePage").live("pageinit", function() {
-    $("#noteSave").click(function(e) {
-        var $newNote = $.trim($("#noteContent").val());
-
-        if ($newNote.length === 0)
-        {
-          return false;
-        }
-        else
-        {
-          saveNote($newNote);
-        }
-
-    });
-  });
-
-  function saveNote($newNote) {
-    $newNote = '<li><a href="#">' + $newNote + '</a></li>';
-
-    var $notes = localStorage.getItem(key);
-    if ($notes && $notes.length > 0)
-    {
-      $notes = $notes.split("|");
-      $notes.push($newNote);
-    }
-    else
-    {
-      $notes = [$newNote];
-    }
-    $notes = $notes.join("|");
-    localStorage.setItem(key, $notes);
-  }
-
-</script>
+	<title>New Note</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="apple-touch-icon" href="app-icon.jpg" />
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.0-rc.1/jquery.mobile-1.1.0-rc.1.min.css" />
+	<link rel="stylesheet" href="custom.css" />
+	<script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.1.0-rc.1/jquery.mobile-1.1.0-rc.1.min.js"></script>
+	<script src="common.js"></script>
 </head>
 
 <body>
@@ -58,13 +19,13 @@
   <div data-role="header" data-position="fixed">
     <a data-icon="back" data-rel="back">Back</a>
     <h1>New Note</h1>
-    <a href="index.html" data-icon="check" class="ui-btn-right" id="noteSave">Save</a>
+    <a href="index.html" data-icon="check" id="noteSave">Save</a>
   </div>
-
+  
   <div data-role="content">
     <textarea cols="40" rows="8" name="textarea" id="noteContent" style="width:100%;height:100%;"></textarea>
   </div>
-
+  
   <div data-role="footer" data-position="fixed">
     <div data-role="navbar">
       <ul>
@@ -73,8 +34,23 @@
       </ul>
     </div>
   </div>
-
+  
+  <script type="text/javascript">
+  
+  $("#newNotePage").die("pageinit").live("pageinit", function( e ) {
+      //console.log(e.type + ": " + e.target.id);
+	  $("#noteSave").die("click").live("click", function(e) {
+		  //console.log(e.type + ": " + e.target.id);
+	      var $note = $.trim($("#noteContent").val());
+	      if ($note.length === 0)
+	        return false;
+	      else
+			save($note);
+	  });
+  });
+  
+  </script>
+  
 </div>
-
 </body>
 </html>

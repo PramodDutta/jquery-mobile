@@ -1,40 +1,85 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-  <title>Trash</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="apple-touch-icon" href="app-icon.jpg" />
-  <link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.0-rc.1/jquery.mobile-1.1.0-rc.1.min.css" />
-  <link rel="stylesheet" href="custom.css" />
-  <script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
-  <script src="http://code.jquery.com/mobile/1.1.0-rc.1/jquery.mobile-1.1.0-rc.1.min.js"></script>
+	<title>Trash</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="apple-touch-icon" href="app-icon.jpg" />
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.0-rc.1/jquery.mobile-1.1.0-rc.1.min.css" />
+	<link rel="stylesheet" href="custom.css" />
+	<script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.1.0-rc.1/jquery.mobile-1.1.0-rc.1.min.js"></script>
+	<script src="common.js"></script>
 </head>
+
 <body>
-  <div data-role="page">
 
-    <div data-role="header" data-position="fixed">
-      <h1>Trash</h1>
-    </div>
+<div data-role="page" id="trashPage">
 
-    <div data-role="content">
-      <ul data-role="listview">
-        <li><a href="#">Acura</a></li>
-        <li><a href="#">Audi</a></li>
-        <li><a href="#">BMW</a></li>
-        <li><a href="#">Cadillac</a></li>
-        <li><a href="#">Ferrari</a></li>
+  <div data-role="header" data-position="fixed">
+    <h1>Notes in Trash</h1>
+  </div>
+  
+  <div data-role="content">
+    <ul data-role="listview" id="trashList">
+    </ul>
+  </div>
+  
+  <div data-role="footer" data-position="fixed">
+    <div data-role="navbar">
+      <ul>
+      <li><a href="index.html">Notes</a></li>
+      <li><a href="trash.html" data-theme="b">Trash</a></li>
       </ul>
     </div>
-
-    <div data-role="footer" data-position="fixed">
-      <div data-role="navbar">
-        <ul>
-        <li><a href="index.html">Notes</a></li>
-        <li><a href="trash.html" data-theme="b">Trash</a></li>
-        </ul>
-      </div>
-    </div>
-
   </div>
+  
+<script type="text/javascript">
+
+$("#trashPage").die("pagebeforeshow").live("pagebeforeshow", function( e ) {
+    //console.log(e.type + ": " + e.target.id);
+  	 showTrashNotes();
+	 
+	  $("#trashList li").die("swipe").live("swipe", function(e) {
+		//console.log(e.type+": "+e.target.nodeName);
+		$(this).children("span.delete:first").toggle();
+	  }).die("taphold").live("taphold", function(e) {
+		$(this).children("span.restore:first").toggle();
+	  });
+	  
+	  //click delete button to remove forever
+	  $("#trashList li span.delete").die("tap").live("tap", function(e) {
+		var $id = $(this).attr('id');
+		deleteForever($id);
+	    $(this).parent("li").remove();
+	  });
+	  
+	  //click restore button to move to notes
+	  $("#trashList li span.restore").die("tap").live("tap", function(e) {
+		var $id = $(this).attr('id');
+		retoreFromTrash($id);
+	    $(this).parent("li").remove();
+	  });
+	  
+  });
+  
+  function showTrashNotes() {
+    var $notes = '';
+    var $data = getAll();
+    if ($data) 
+    {
+    	$data = $data.data;
+    	$.each($data, function ($id, $value) {
+    		if ($value[0] == 1)
+    			$notes += '<li>' + $value[1] + '<span class="restore" id="'+$id+'">Restore</span><span class="delete" id="'+$id+'">Delete</span></li>';
+    	});
+    }
+    $("#trashList").html($notes);
+    $("#trashList").listview('refresh');
+  }
+  
+</script>
+	
+</div>
 </body>
 </html>
